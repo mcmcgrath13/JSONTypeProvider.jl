@@ -31,6 +31,10 @@ function unify(a::Type{NamedTuple{A, T}}, b::Type{NamedTuple{B, S}}) where {A,T<
     return NamedTuple{tuple(keys(c)...), Tuple{values(c)...}}
 end
 
+function unify(a::Type{Array{T,1}}, b::Type{Array{S,1}}) where {T, S}
+    return Array{unify(T,S), 1}
+end
+
 # parse json into a type
 function build_type(o::JSON3.Object)
     d = Dict()
