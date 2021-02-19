@@ -15,9 +15,24 @@ json = JSON3.read(read("test/menu.json", String)) # either a JSON.Array or JSON.
 
 # build a type for the JSON
 raw_json_type = JSONTypeProvider.build_type(json)
+# result:
+# NamedTuple{(:menu,),Tuple{NamedTuple{(:header, :items),Tuple{String,Array{Union{Nothing, NamedTuple{(:id, :label),Tuple{String,Union{Nothing, String}}}},1}}}}}
 
 # turn the type into struct expressions, including replacing sub types with references to a struct
 json_exprs = JSONTypeProvider.to_exprs(raw_json_type, :MyStruct)
+# result:
+# 3-element Array{Any,1}:
+# :(struct Item
+#      id::String
+#      label::Union{Nothing, String}
+#  end)
+# :(struct Menu
+#      header::String
+#      items::Array{Union{Nothing, Item}, 1}
+#  end)
+# :(struct MyStruct
+#      menu::Menu
+#  end)
 
 # write the types to a file, then can be edited/included as needed
 JSONTypeProvider.write_exprs(json_exprs)
