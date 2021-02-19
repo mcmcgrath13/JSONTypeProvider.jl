@@ -35,7 +35,7 @@ json_exprs = JSONTypeProvider.to_exprs(raw_json_type, :MyStruct)
 #  end)
 
 # write the types to a file, then can be edited/included as needed
-JSONTypeProvider.write_exprs(json_exprs)
+JSONTypeProvider.write_exprs(json_exprs, "test.jl")
 ```
 
 In the example above, the file `test/menu.json`:

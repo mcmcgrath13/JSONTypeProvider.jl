@@ -18,4 +18,5 @@ makedocs(;
 
 deploydocs(;
     repo="github.com/mcmcgrath13/JSONTypeProvider.jl",
+    devbranch = "main"
 )
