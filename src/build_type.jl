@@ -60,7 +60,7 @@ function build_type(a::JSON3.Array)
         end
     end
 
-    return Vector{Union{foldl(unify, t; init = Union{}),nt}}
+    return Array{foldl(unify, t; init = Union{nt}), 1}
 end
 
 build_type(x::T) where {T} = T
