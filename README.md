@@ -5,7 +5,7 @@
 [![Build Status](https://github.com/mcmcgrath13/JSONTypeProvider.jl/workflows/CI/badge.svg)](https://github.com/mcmcgrath13/JSONTypeProvider.jl/actions)
 [![Coverage](https://codecov.io/gh/mcmcgrath13/JSONTypeProvider.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/mcmcgrath13/JSONTypeProvider.jl)
 
-An F# inspire type provider to JSON.  Given a JSON3 Object or Array, create a type from it and write it to file.
+An F# inspired type provider to JSON.  Given a JSON3 Object or Array, create a type from it and write it to file.
 
 ```julia
 import JSON3
