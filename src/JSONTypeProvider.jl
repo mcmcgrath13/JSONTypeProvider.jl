@@ -1,5 +1,8 @@
 module JSONTypeProvider
 
-# Write your package code here.
+import JSON3
+
+include("build_type.jl")
+include("write_type.jl")
 
 end
