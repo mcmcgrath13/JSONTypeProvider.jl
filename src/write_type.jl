@@ -1,6 +1,6 @@
 function to_ast(::Type{T}) where {T}
-    io = IOBuffer();
-    print(io, T);
+    io = IOBuffer()
+    print(io, T)
     str = String(take!(io))
     ast = Meta.parse(str)
     return ast
@@ -45,7 +45,7 @@ function to_exprs(t, n)
     return exprs
 end
 
-function to_expr(::Type{NamedTuple{N, T}}, root_name::Symbol, exprs) where {N, T<:Tuple}
+function to_expr(::Type{NamedTuple{N,T}}, root_name::Symbol, exprs) where {N,T<:Tuple}
     sub_exprs = []
     for (n, t) in zip(N, T.types)
         push!(sub_exprs, to_field_expr(t, n, exprs))
@@ -55,25 +55,30 @@ function to_expr(::Type{NamedTuple{N, T}}, root_name::Symbol, exprs) where {N, T
     return struct_name
 end
 
-function to_expr(::Type{Array{T,N}}, root_name::Symbol, exprs) where {T <: NamedTuple, N}
+function to_expr(::Type{Array{T,N}}, root_name::Symbol, exprs) where {T<:NamedTuple,N}
     return to_expr(T, root_name, exprs)
 end
 
 function to_expr(t::Type{T}, root_name::Symbol, exprs) where {T}
     if T isa Union
-        return Expr(:curly, :Union, to_expr(t.a, root_name, exprs), to_expr(t.b, root_name, exprs))
+        return Expr(
+            :curly,
+            :Union,
+            to_expr(t.a, root_name, exprs),
+            to_expr(t.b, root_name, exprs),
+        )
     else
         return to_ast(T)
     end
 end
 
 # given the type of a field of a struct, return a node for that field's name/type
-function to_field_expr(t::Type{NamedTuple{N, T}}, root_name::Symbol, exprs) where {N, T}
+function to_field_expr(t::Type{NamedTuple{N,T}}, root_name::Symbol, exprs) where {N,T}
     to_expr(t, root_name, exprs)
     return Expr(:(::), root_name, to_pascal_case(root_name))
 end
 
-function to_field_expr(::Type{Array{T,N}}, root_name::Symbol, exprs) where {T, N}
+function to_field_expr(::Type{Array{T,N}}, root_name::Symbol, exprs) where {T,N}
     return Expr(:(::), root_name, Expr(:curly, :Array, to_expr(T, root_name, exprs), 1))
 end
 
