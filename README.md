@@ -1,6 +1,6 @@
 # JSONTypeProvider
 
-[![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://mcmcgrath13.github.io/JSONTypeProvider.jl/stable)
+<!--[![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://mcmcgrath13.github.io/JSONTypeProvider.jl/stable) -->
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://mcmcgrath13.github.io/JSONTypeProvider.jl/dev)
 [![Build Status](https://github.com/mcmcgrath13/JSONTypeProvider.jl/workflows/CI/badge.svg)](https://github.com/mcmcgrath13/JSONTypeProvider.jl/actions)
 [![Coverage](https://codecov.io/gh/mcmcgrath13/JSONTypeProvider.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/mcmcgrath13/JSONTypeProvider.jl)
@@ -11,7 +11,7 @@ An F# inspired type provider to JSON.  Given a JSON3 Object or Array, create a t
 import JSON3
 import JSONTypeProvider
 
-json = JSON3.read(read("test/menu.json", String)) # either a JSON.Array or JSON.Object
+json = JSON3.read(read("test/menu.json", String)) # either a JSON3.Array or JSON3.Object
 
 # build a type for the JSON
 raw_json_type = JSONTypeProvider.build_type(json)
