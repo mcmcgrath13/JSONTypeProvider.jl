@@ -2,13 +2,7 @@
 struct Top end
 
 # get the type from a named tuple, given a name
-function get_type(t::Type{NamedTuple{N,T}}, k::Symbol) where {N,T<:Tuple}
-    if k in N
-        return T.types[findfirst(isequal(k), N)]
-    else
-        return Nothing
-    end
-end
+get_type(NT, k) = hasfield(NT, k) ? fieldtype(NT, k) : Nothing
 
 # unify two types to a single type
 unify(a, b) = unify(b, a)
@@ -21,12 +15,12 @@ function unify(
     b::Type{NamedTuple{B,S}},
 ) where {A,T<:Tuple,B,S<:Tuple}
     c = Dict()
-    for (k, v) in zip(A, T.types)
+    for (k, v) in zip(A, fieldtypes(a))
         c[k] = unify(v, get_type(b, k))
     end
 
-    for (k, v) in zip(B, S.types)
-        if k ∉ keys(c)
+    for (k, v) in zip(B, fieldtypes(b))
+        if !haskey(c, k)
             c[k] = unify(v, Nothing)
         end
     end
@@ -34,9 +28,7 @@ function unify(
     return NamedTuple{tuple(keys(c)...),Tuple{values(c)...}}
 end
 
-function unify(a::Type{Array{T,1}}, b::Type{Array{S,1}}) where {T,S}
-    return Array{unify(T, S),1}
-end
+unify(a::Type{Vector{T}}, b::Type{Vector{S}}) where {T,S} = Vector{unify(T, S)}
 
 # parse json into a type
 function build_type(o::JSON3.Object)
@@ -60,7 +52,7 @@ function build_type(a::JSON3.Array)
         end
     end
 
-    return Array{foldl(unify, t; init = Union{nt}), 1}
+    return Vector{foldl(unify, t; init = Union{nt})}
 end
 
 build_type(x::T) where {T} = T
