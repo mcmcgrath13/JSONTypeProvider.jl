@@ -1,3 +1,5 @@
+# DEPRECATED - Incorporated into [JSON3](https://github.com/quinnj/JSON3.jl)
+
 # JSONTypeProvider
 
 <!--[![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://mcmcgrath13.github.io/JSONTypeProvider.jl/stable) -->
